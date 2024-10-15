@@ -1,23 +1,18 @@
 BUILD_DIR = ./build
 VFLAGS = -cc -trace --exe --build -j 8
 
-TOP ?= plru_impl
+TOP ?= sparse_buffer
 VTOP =  V$(TOP)
 
-CSRC = ./plru_impl_tb.cpp
-VSRC = ../vsrc/plru_impl.sv
+CSRC = ./$(TOP)_tb.cpp
 
 $(VTOP):
-	@echo "====================== CSRC ======================"
-	@echo $(CSRC)
-	@echo "====================== VSRC ======================"
-	@echo $(VSRC)
-	@echo "====================== END  ======================"
 	@verilator $(VFLAGS) \
 	--top-module $(TOP) \
 	--Mdir $(BUILD_DIR) \
 	-sv \
-	$(VSRC) $(CSRC) \
+	-f filelist.f \
+	$(CSRC) \
 
 sim: $(VTOP)
 	$(BUILD_DIR)/$(VTOP)
