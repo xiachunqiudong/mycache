@@ -19,7 +19,7 @@ void init_verilator(int argc, char **argv) {
   Verilated::traceEverOn(true);
   tfp = new VerilatedVcdC;
   top->trace(tfp, 0);
-  tfp->open("sparse_buffer_wave.vcd");
+  tfp->open("./wave/sparse_buffer_wave.vcd");
 }
 
 void free() {
