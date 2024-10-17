@@ -43,17 +43,30 @@ void reset() {
 }
 
 void sim() {
-  for (int i = 0; i < 10; i++) {
+  for (int i = 0; i < 100; i++) {
     top->clk_i  = 0;
     top->rstn_i = 1;
     top->write_valid_i = 0;
-    // input data
+    // write data
     if (top->write_allowIn_o) {
       top->write_valid_i = 1;
       top->write_data_i = i;
     }
+    // read data
+    int bottom_ptr = top->sparse_buffer_bottom_ptr_o;
+    top->read_rtn_allowIn_i = 1;
+    if ((top->sparse_buffer_valid_o >> bottom_ptr) & 1) {
+      printf("bottom ptr [%d] is point a valid entry, read this entry from buffer.\n", bottom_ptr);
+      if (top->read_allowIn_o) {
+        top->read_valid_i = 1;
+        top->read_ptr_i = bottom_ptr;
+      }
+    }
     top->eval();
     tfp->dump(main_time++);
+    if (top->read_rtn_valid_o) {
+      printf("read data from buffer success, data: %d\n", top->read_rtn_data_o);
+    }
     top->clk_i  = 1;
     top->rstn_i = 1;
     top->eval();

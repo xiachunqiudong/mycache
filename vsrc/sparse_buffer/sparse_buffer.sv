@@ -6,13 +6,13 @@ module sparse_buffer #(
   input  logic            clk_i,
   input  logic            rstn_i,
   // Write ports
-  input  logic            write_valid_i
+  input  logic            write_valid_i,
   output logic            write_allowIn_o,
   input  logic [DW-1:0]   write_data_i,
   // Read ports
   input  logic            read_valid_i,
   output logic            read_allowIn_o,
-  output logic            read_ptr_i,
+  input  logic [AW-1:0]   read_ptr_i,
   // Read data return ports
   output logic            read_rtn_valid_o,
   input  logic            read_rtn_allowIn_i,
@@ -48,7 +48,7 @@ module sparse_buffer #(
     if (~rstn_i) begin
       write_ptr_Q <= '0;
     end
-    else begin
+    else if (write_kickoff) begin
       write_ptr_Q <= write_ptr_In;
     end
   end
@@ -95,6 +95,8 @@ module sparse_buffer #(
   end
 
   assign sparse_buffer_valid_o = sparse_array_valid_Q;
+
+  assign sparse_buffer_bottom_ptr_o = bottom_ptr_Q;
 
 //---------------------------------------------------------
 //                         read
