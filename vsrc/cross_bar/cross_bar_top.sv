@@ -143,6 +143,47 @@ module cross_bar_top(
     .first_ptr_o   (ch0_entryId_send_to_bank3   )
   );
 
+  logic [2:0] bank0_channel_req_array;
+  logic [2:0] bank1_channel_req_array;
+  logic [2:0] bank2_channel_req_array;
+  logic [2:0] bank3_channel_req_array;
+
+  assign bank0_channel_req_array[2:0] = {ch2_want_send_to_bank0, 
+                                         ch1_want_send_to_bank0,
+                                         ch0_want_send_to_bank0};
+
+  assign bank1_channel_req_array[2:0] = {ch2_want_send_to_bank1, 
+                                         ch1_want_send_to_bank1,
+                                         ch0_want_send_to_bank1};
+
+  assign bank2_channel_req_array[2:0] = {ch2_want_send_to_bank2, 
+                                         ch1_want_send_to_bank2,
+                                         ch0_want_send_to_bank2};
+
+  assign bank3_channel_req_array[2:0] = {ch2_want_send_to_bank3, 
+                                         ch1_want_send_to_bank3,
+                                         ch0_want_send_to_bank3};
+
+//---------------------------------------------------------------
+// 每个 Bank 使用轮训仲裁的方法，选择一个 Channel 的请求进行发送
+//
+// channel0 ---|
+// channel1 ---|---> Bank0
+// channel2 ---|
+//
+// channel0 ---|
+// channel1 ---|---> Bank1
+// channel2 ---|
+//
+// channel0 ---|
+// channel1 ---|---> Bank2
+// channel2 ---|
+//
+// channel0 ---|
+// channel1 ---|---> Bank3
+// channel2 ---|
+//
+//---------------------------------------------------------------
 
 
 endmodule
