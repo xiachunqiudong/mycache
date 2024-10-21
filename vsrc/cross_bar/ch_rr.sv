@@ -16,9 +16,9 @@ module ch_rr (
 
   assign shift_entry_valid[4:0] = {5{read_ptr_one_hot[0]}} &  entry_valid_i[4:0]
                                 | {5{read_ptr_one_hot[1]}} & {entry_valid_i[0],   entry_valid_i[4:1]}
-                                | {5{read_ptr_one_hot[2]}} & {entry_valid_i[0:1], entry_valid_i[4:2]}
-                                | {5{read_ptr_one_hot[3]}} & {entry_valid_i[0:2], entry_valid_i[4:3]}
-                                | {5{read_ptr_one_hot[4]}} & {entry_valid_i[0:3], entry_valid_i[4]  };
+                                | {5{read_ptr_one_hot[2]}} & {entry_valid_i[1:0], entry_valid_i[4:2]}
+                                | {5{read_ptr_one_hot[3]}} & {entry_valid_i[2:0], entry_valid_i[4:3]}
+                                | {5{read_ptr_one_hot[4]}} & {entry_valid_i[3:0], entry_valid_i[4]  };
 
   assign ptr_incr[2:0] = shift_entry_valid[0] ? 3'd0
                        : shift_entry_valid[1] ? 3'd1

@@ -1,7 +1,7 @@
 BUILD_DIR = ./build
 VFLAGS = -cc -trace --exe --build -j 8
 
-TOP ?= sparse_buffer
+TOP ?= cross_bar_top
 VTOP =  V$(TOP)
 
 CSRC = ./$(TOP)_tb.cpp

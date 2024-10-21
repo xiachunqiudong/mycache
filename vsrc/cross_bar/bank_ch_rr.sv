@@ -24,7 +24,9 @@ module bank_ch_rr(
                                  : shift_ch_req_valid[2] ? 2'd2
                                  :                         2'd0;
 
-  assign ch_bottom_ptr_In[1:0] = ch_bottom_ptr_Q[1:0] + ch_bottom_ptr_incr[1:0];
+  assign ch_bottom_ptr_In[1:0] = (ch_bottom_ptr_Q[1:0] + ch_bottom_ptr_incr[1:0]) > 2'd2
+                               ? (ch_bottom_ptr_Q[1:0] + ch_bottom_ptr_incr[1:0] - 2'd3)
+                               : ch_bottom_ptr_Q[1:0] + ch_bottom_ptr_incr[1:0];
 
   always_ff @(posedge clk_i or negedge rstn_i) begin
     if (~rstn_i) begin
