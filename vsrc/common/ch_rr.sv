@@ -1,4 +1,4 @@
-module round_robin (
+module ch_rr (
   input  logic [4:0] entry_valid_i,
   input  logic [2:0] read_ptr_i,
   output logic [2:0] first_ptr_o
@@ -14,7 +14,7 @@ module round_robin (
   assign read_ptr_one_hot[3] = read_ptr_i[2:0] == 3'd3;
   assign read_ptr_one_hot[4] = read_ptr_i[2:0] == 3'd4;
 
-  assign shift_entry_valid[4:0] = {5{read_ptr_one_hot[0]}} & entry_valid_i[4:0]
+  assign shift_entry_valid[4:0] = {5{read_ptr_one_hot[0]}} &  entry_valid_i[4:0]
                                 | {5{read_ptr_one_hot[1]}} & {entry_valid_i[0],   entry_valid_i[4:1]}
                                 | {5{read_ptr_one_hot[2]}} & {entry_valid_i[0:1], entry_valid_i[4:2]}
                                 | {5{read_ptr_one_hot[3]}} & {entry_valid_i[0:2], entry_valid_i[4:3]}
